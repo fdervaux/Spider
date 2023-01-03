@@ -45,8 +45,6 @@ public class FloorSensor : MonoBehaviour
         }
 
         Debug.DrawLine(transform.position + _shift, transform.position + _sensorDirection.normalized * _maxDetectionDistance, Color.red, Time.fixedDeltaTime);    
-
-        
     }
 
     
