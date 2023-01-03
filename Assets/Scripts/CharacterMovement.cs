@@ -46,7 +46,9 @@ public class CharacterMovement : MonoBehaviour
 
             if(_floorSensor.GetFloorDistance() < -0.01f)
             {
-                //groundCorrection = -_floorSensor.GetFloorDistance() * transform.up;
+
+                Debug.Log(_floorSensor.GetFloorDistance());
+                groundCorrection = -_floorSensor.GetFloorDistance() * transform.up;
             }
         }
         else
@@ -58,6 +60,6 @@ public class CharacterMovement : MonoBehaviour
 
         _horizontalVelocity = Vector3.SmoothDamp(_horizontalVelocity, targetVelocity, ref _smoothDampVelocity, _smoothTime, _maxSpeed);
     
-        _rigidBody.velocity = _horizontalVelocity + _verticalVelocity + groundCorrection / Time.fixedDeltaTime ; 
+        _rigidBody.velocity = _horizontalVelocity + _verticalVelocity + groundCorrection * Time.fixedDeltaTime ; 
     }
 }

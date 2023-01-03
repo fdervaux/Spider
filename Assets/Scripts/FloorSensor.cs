@@ -37,7 +37,7 @@ public class FloorSensor : MonoBehaviour
 
         if(Physics.SphereCast(transform.position + _shift,_radius,_sensorDirection, out hit, _maxDetectionDistance,_layerMaskDetection))
         {
-            _floorDistance = hit.distance - Vector3.Project(_shift,_sensorDirection).magnitude;
+            _floorDistance = hit.distance - Vector3.Project(_shift,_sensorDirection).magnitude - _radius;
             _floorDetected = true;
 
             Debug.DrawLine(transform.position + _shift, hit.point, Color.green, Time.fixedDeltaTime);    
