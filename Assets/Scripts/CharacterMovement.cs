@@ -46,8 +46,6 @@ public class CharacterMovement : MonoBehaviour
 
             if(_floorSensor.GetFloorDistance() < -0.01f)
             {
-
-                Debug.Log(_floorSensor.GetFloorDistance());
                 groundCorrection = -_floorSensor.GetFloorDistance() * transform.up;
             }
         }
