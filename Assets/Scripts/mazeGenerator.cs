@@ -49,29 +49,31 @@ public class mazeGenerator : MonoBehaviour
         Vector2Int currentPosition = _VisitedTiles[index];
 
 
-        if (currentPosition.y != 0)
+        if (currentPosition.y != _mazeSize.y - 1)
         {
             Vector2Int North = currentPosition + Vector2Int.up;
 
-            if(!_VisitedTiles.Contains(North))
+            if (!_VisitedTiles.Contains(North))
             {
                 neighbourg.Add(North);
+                Debug.Log("north");
             }
         }
 
-        if (currentPosition.y != _mazeSize.y - 1)
+        if (currentPosition.y != 0)
         {
             Vector2Int South = currentPosition + Vector2Int.down;
-            if(!_VisitedTiles.Contains(South))
+            if (!_VisitedTiles.Contains(South))
             {
                 neighbourg.Add(South);
+                Debug.Log("south");
             }
         }
 
         if (currentPosition.x != _mazeSize.x - 1)
         {
             Vector2Int Est = currentPosition + Vector2Int.right;
-            if(!_VisitedTiles.Contains(Est))
+            if (!_VisitedTiles.Contains(Est))
             {
                 neighbourg.Add(Est);
             }
@@ -80,7 +82,7 @@ public class mazeGenerator : MonoBehaviour
         if (currentPosition.x != 0)
         {
             Vector2Int ouest = currentPosition + Vector2Int.left;
-            if(!_VisitedTiles.Contains(ouest))
+            if (!_VisitedTiles.Contains(ouest))
             {
                 neighbourg.Add(ouest);
             }
@@ -96,32 +98,69 @@ public class mazeGenerator : MonoBehaviour
         Vector2Int firstTile = new Vector2Int(Random.Range(0, _mazeSize.x), Random.Range(0, _mazeSize.y));
         _VisitedTiles.Add(firstTile);
         int currentTileIndex = 0;
+        int iteration = 0;
 
         while (_VisitedTiles.Count != _mazeSize.x * _mazeSize.y)
         {
             List<Vector2Int> neighbourg = getUnVisitedNeighbourg(currentTileIndex);
 
-            if(neighbourg.Count > 0)
+           
+
+            if (neighbourg.Count > 0)
             {
-                int indexInNeighbourg = Random.Range(0,neighbourg.Count);
-                
-                Vector2Int oldPosition = neighbourg[currentTileIndex];
+                int indexInNeighbourg = Random.Range(0, neighbourg.Count);
+
+                Vector2Int oldPosition = _VisitedTiles[currentTileIndex];
                 Vector2Int newPosition = neighbourg[indexInNeighbourg];
 
-                if(newPosition.x > oldPosition.x)
+                //Debug.Log( newPosition);
+
+                if (newPosition.x > oldPosition.x)
                 {
-                    TileController oldControler = tileControllers[oldPosition.x,oldPosition.y];
-                    TileController newControler = tileControllers[newPosition.x,newPosition.y];
+                    TileController oldControler = tileControllers[oldPosition.x, oldPosition.y];
+                    TileController newControler = tileControllers[newPosition.x, newPosition.y];
 
-                    
+                    oldControler.SetDirection(Directions.O, false);
+                    newControler.SetDirection(Directions.E, false);
                 }
-                
 
+                if (newPosition.x < oldPosition.x)
+                {
+                    TileController oldControler = tileControllers[oldPosition.x, oldPosition.y];
+                    TileController newControler = tileControllers[newPosition.x, newPosition.y];
+
+                    oldControler.SetDirection(Directions.E, false);
+                    newControler.SetDirection(Directions.O, false);
+                }
+
+                if (newPosition.y > oldPosition.y)
+                {
+                    TileController oldControler = tileControllers[oldPosition.x, oldPosition.y];
+                    TileController newControler = tileControllers[newPosition.x, newPosition.y];
+
+                    oldControler.SetDirection(Directions.N, false);
+                    newControler.SetDirection(Directions.S, false);
+                }
+
+                if (newPosition.y < oldPosition.y)
+                {
+                    TileController oldControler = tileControllers[oldPosition.x, oldPosition.y];
+                    TileController newControler = tileControllers[newPosition.x, newPosition.y];
+
+                    oldControler.SetDirection(Directions.S, false);
+                    newControler.SetDirection(Directions.N, false);
+                }
+
+                _VisitedTiles.Add(newPosition);
+                currentTileIndex = _VisitedTiles.Count - 1;
             }
             else
             {
-
+                currentTileIndex--;
             }
+
+            iteration++;
+            yield return new WaitForSeconds(_stepAnimationDuration);
         }
 
 
