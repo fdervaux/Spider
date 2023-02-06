@@ -56,7 +56,6 @@ public class mazeGenerator : MonoBehaviour
             if (!_VisitedTiles.Contains(North))
             {
                 neighbourg.Add(North);
-                Debug.Log("north");
             }
         }
 
@@ -66,7 +65,6 @@ public class mazeGenerator : MonoBehaviour
             if (!_VisitedTiles.Contains(South))
             {
                 neighbourg.Add(South);
-                Debug.Log("south");
             }
         }
 
@@ -153,6 +151,7 @@ public class mazeGenerator : MonoBehaviour
 
                 _VisitedTiles.Add(newPosition);
                 currentTileIndex = _VisitedTiles.Count - 1;
+                yield return new WaitForSeconds(_stepAnimationDuration);
             }
             else
             {
@@ -160,7 +159,7 @@ public class mazeGenerator : MonoBehaviour
             }
 
             iteration++;
-            yield return new WaitForSeconds(_stepAnimationDuration);
+            
         }
 
 
