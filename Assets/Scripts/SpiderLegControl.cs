@@ -2,13 +2,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiderLegControl : MonoBehaviour
+[System.Serializable]
+public class LegData
 {
-
     [SerializeField] private Transform _refLegPos;
     [SerializeField] private Transform _targetLegPos;
 
+    private float _animationTimeRemaining = 0;
 
+    private Vector3 _startAnimationPosition;
+    private Vector3 _targetAnimationPosition;
+
+    private bool _hasContactFloorPoint = false;
+    private Vector3 _floorContactPoint = Vector3.zero;
+
+    public bool IsAnimated { get { return _animationTimeRemaining > 0; } }
+
+    public float targetDistance { get { return Vector3.Distance(_targetLegPos.position, _targetAnimationPosition); } }
+
+    public void FindTarget(
+        float velocityAnticipationTime,
+        float castDistance,
+        float castRadius,
+        float maxDistanceToFloorPoint,
+        Vector3 castDirection,
+        LayerMask castLayerMask,
+        Vector3 bodyVelocity)
+    {
+        RaycastHit hit;
+        _hasContactFloorPoint = false;
+
+        Vector3 refPos = _refLegPos.position + bodyVelocity * velocityAnticipationTime;
+
+        if (Physics.SphereCast(refPos, castRadius, castDirection, out hit, castDistance, castLayerMask))
+        {
+            _floorContactPoint = hit.point;
+            _hasContactFloorPoint = true;
+        }
+
+        if (_hasContactFloorPoint)
+        {
+            _targetAnimationPosition = _floorContactPoint;
+        }
+
+    }
+
+    public void StartAnimation(float animationDuration)
+    {
+        _startAnimationPosition = _targetLegPos.position;
+        _animationTimeRemaining = animationDuration;
+    }
+
+
+    public void Animate(AnimationCurve animationCurve, float animationDuration)
+    {
+        if (_animationTimeRemaining > 0)
+        {
+            float factor = animationCurve.Evaluate(1 - _animationTimeRemaining / animationDuration);
+            _targetLegPos.position = Vector3.Lerp(_startAnimationPosition, _targetAnimationPosition, factor);
+            _animationTimeRemaining -= Time.deltaTime;
+        }
+    }
+}
+
+public class SpiderLegControl : MonoBehaviour
+{
+
+    [SerializeField] private List<LegData> _legs;
     [SerializeField] private float _castDistance = 1;
     [SerializeField] private float _castRadius = 0.3f;
     [SerializeField] private LayerMask _castlayerMask;
@@ -17,10 +77,17 @@ public class SpiderLegControl : MonoBehaviour
 
     [SerializeField] private float _velocityAnticipationTime = 0.2f;
 
-    private Vector3 _floorContactPoint = Vector3.zero;
 
-    private bool _hasContactFloorPoint = false;
+
+
     private Rigidbody _rigidbody;
+
+    [SerializeField] private float _animationDuration = 0.5f;
+    [SerializeField] private AnimationCurve _animationCurve;
+
+
+
+
 
 
     // Start is called before the first frame update
@@ -32,37 +99,68 @@ public class SpiderLegControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RaycastHit hit;
-        _hasContactFloorPoint = false;
+        bool legMoving = false;
 
-        Vector3 refPos = _refLegPos.position + _rigidbody.velocity * _velocityAnticipationTime;
-
-        if (Physics.SphereCast(refPos, _castRadius, -transform.up, out hit, _castDistance, _castlayerMask))
+        foreach (LegData leg in _legs)
         {
-            _floorContactPoint = hit.point;
-            _hasContactFloorPoint = true;
+            if (leg.IsAnimated)
+                legMoving = true;
+
+            leg.FindTarget(
+            _velocityAnticipationTime,
+            _castDistance, _castRadius,
+            _maxDistanceToFloorPoint,
+            -transform.up,
+            _castlayerMask,
+            _rigidbody.velocity
+            );
         }
 
-        if(_hasContactFloorPoint && Vector3.Distance(_targetLegPos.position,_floorContactPoint) > _maxDistanceToFloorPoint)
+
+
+        if (legMoving)
+            return;
+
+        LegData legToMove = null;
+        float MaxDistance = 0;
+
+
+        foreach (LegData leg in _legs)
         {
-            _targetLegPos.position = _floorContactPoint;
+            float distance = leg.targetDistance;
+            if (distance > _maxDistanceToFloorPoint && distance > MaxDistance )
+            {
+                legToMove = leg;
+                MaxDistance = distance;
+            }
+                
         }
 
+        legToMove?.StartAnimation(_animationDuration / _rigidbody.velocity.magnitude);
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
-
+        foreach (LegData leg in _legs)
+        {
+            leg.Animate(_animationCurve, _animationDuration / _rigidbody.velocity.magnitude);
+        }
     }
+
 
     private void OnDrawGizmos()
     {
-        if(!_hasContactFloorPoint)
+
+
+
+        /*if (!_hasContactFloorPoint)
             return;
 
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere(_floorContactPoint, 0.01f);
+        Gizmos.DrawSphere(_floorContactPoint, 0.01f);*/
     }
 
 }

@@ -44,10 +44,10 @@ public class TileController : MonoBehaviour
         _left.localScale = scale;
         _right.localScale = scale;
 
-        _left.localPosition = new Vector3(_size.x / 2, 1, 0);
-        _right.localPosition = new Vector3(-_size.x / 2, 1, 0);
-        _down.localPosition = new Vector3(0, 1, -_size.y / 2);
-        _up.localPosition = new Vector3(0, 1, _size.y / 2);
+        _left.localPosition = new Vector3(_size.x / 2, 0, 0);
+        _right.localPosition = new Vector3(-_size.x / 2, 0, 0);
+        _down.localPosition = new Vector3(0, 0, -_size.y / 2);
+        _up.localPosition = new Vector3(0, 0, _size.y / 2);
 
     }
 }

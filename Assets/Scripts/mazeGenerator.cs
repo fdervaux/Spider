@@ -11,6 +11,8 @@ public class mazeGenerator : MonoBehaviour
     public GameObject _floor;
     public GameObject _TilePrefab;
 
+    public bool instant = true;
+
     private Vector2 _totalSize;
 
     private float _stepAnimationDuration = 0.01f;
@@ -18,6 +20,8 @@ public class mazeGenerator : MonoBehaviour
     private TileController[,] tileControllers;
 
     private List<Vector2Int> _VisitedTiles = new List<Vector2Int>();
+
+
 
 
     public int seed = 42;
@@ -151,7 +155,9 @@ public class mazeGenerator : MonoBehaviour
 
                 _VisitedTiles.Add(newPosition);
                 currentTileIndex = _VisitedTiles.Count - 1;
-                yield return new WaitForSeconds(_stepAnimationDuration);
+                
+                if(!instant)
+                    yield return new WaitForSeconds(_stepAnimationDuration);
             }
             else
             {
@@ -163,7 +169,7 @@ public class mazeGenerator : MonoBehaviour
         }
 
 
-        yield return new WaitForSeconds(_stepAnimationDuration);
+        yield return null;
     }
 
     private void InitMaze()
@@ -174,7 +180,6 @@ public class mazeGenerator : MonoBehaviour
         {
             for (int j = 0; j < _mazeSize.y; j++)
             {
-                //yield return new WaitForSeconds(_stepAnimationDuration);
                 GameObject tile = Instantiate(_TilePrefab, ComputePosition(i, j), Quaternion.identity, this.transform);
 
                 TileController controller = tile.GetComponent<TileController>();
