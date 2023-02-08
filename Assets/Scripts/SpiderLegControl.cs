@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [System.Serializable]
 public class LegData
 {
@@ -15,6 +16,8 @@ public class LegData
 
     private bool _hasContactFloorPoint = false;
     private Vector3 _floorContactPoint = Vector3.zero;
+
+    private float _currentAnimationDuration = 1;
 
     public bool IsAnimated { get { return _animationTimeRemaining > 0; } }
 
@@ -51,16 +54,22 @@ public class LegData
     {
         _startAnimationPosition = _targetLegPos.position;
         _animationTimeRemaining = animationDuration;
+        _currentAnimationDuration = animationDuration;
     }
 
 
-    public void Animate(AnimationCurve animationCurve, float animationDuration)
+    public void Animate(AnimationCurve animationCurve)
     {
         if (_animationTimeRemaining > 0)
         {
-            float factor = animationCurve.Evaluate(1 - _animationTimeRemaining / animationDuration);
+            float factor = animationCurve.Evaluate(1 - _animationTimeRemaining / _currentAnimationDuration);
             _targetLegPos.position = Vector3.Lerp(_startAnimationPosition, _targetAnimationPosition, factor);
             _animationTimeRemaining -= Time.deltaTime;
+
+            if (_animationTimeRemaining <= 0)
+            {
+                _targetLegPos.position = _targetAnimationPosition;
+            }
         }
     }
 }
@@ -77,18 +86,11 @@ public class SpiderLegControl : MonoBehaviour
 
     [SerializeField] private float _velocityAnticipationTime = 0.2f;
 
-
-
-
     private Rigidbody _rigidbody;
 
-    [SerializeField] private float _animationDuration = 0.5f;
+    [SerializeField] private float _minAnimationDuration = 0.5f;
+    [SerializeField] private float _maxAnimationDuration = 0.5f;
     [SerializeField] private AnimationCurve _animationCurve;
-
-
-
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -116,8 +118,6 @@ public class SpiderLegControl : MonoBehaviour
             );
         }
 
-
-
         if (legMoving)
             return;
 
@@ -128,15 +128,17 @@ public class SpiderLegControl : MonoBehaviour
         foreach (LegData leg in _legs)
         {
             float distance = leg.targetDistance;
-            if (distance > _maxDistanceToFloorPoint && distance > MaxDistance )
+            if (distance > _maxDistanceToFloorPoint && distance > MaxDistance)
             {
                 legToMove = leg;
                 MaxDistance = distance;
             }
-                
+
         }
 
-        legToMove?.StartAnimation(_animationDuration / _rigidbody.velocity.magnitude);
+        float velocityFactor = ExtensionMethods.Remap(_rigidbody.velocity.magnitude, 0, 6, 0, 1);
+        float animationDuration = Mathf.Lerp(_minAnimationDuration,_maxAnimationDuration,velocityFactor);
+        legToMove?.StartAnimation(animationDuration);
     }
 
 
@@ -146,16 +148,13 @@ public class SpiderLegControl : MonoBehaviour
     {
         foreach (LegData leg in _legs)
         {
-            leg.Animate(_animationCurve, _animationDuration / _rigidbody.velocity.magnitude);
+            leg.Animate(_animationCurve);
         }
     }
 
 
     private void OnDrawGizmos()
     {
-
-
-
         /*if (!_hasContactFloorPoint)
             return;
 

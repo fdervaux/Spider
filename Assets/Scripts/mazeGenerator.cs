@@ -106,8 +106,6 @@ public class mazeGenerator : MonoBehaviour
         {
             List<Vector2Int> neighbourg = getUnVisitedNeighbourg(currentTileIndex);
 
-           
-
             if (neighbourg.Count > 0)
             {
                 int indexInNeighbourg = Random.Range(0, neighbourg.Count);
