@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class followTargetDynamics : MonoBehaviour
 {
-
-    [SerializeField] private float f, z, r;
     [SerializeField] private Transform target;
 
-    SecondOrderDynamics secondOrderDynamics = null;
+    [SerializeField] private SecondOrderData<Vector3> _data;
 
     // Start is called before the first frame update
     void Start()
     {
-        secondOrderDynamics = new SecondOrderDynamics(f, z, r, transform.position);
     }
 
     void FixedUpdate()
     {
-        transform.position = secondOrderDynamics.Update(Time.fixedDeltaTime, target.position);
+        transform.position = SecondOrderDynamics.SencondOrderUpdate(target.transform.position,_data,Time.fixedDeltaTime);
+    }
+
+    private void OnValidate() {
+        _data.UpdateData();
+    }
+
+    private void OnEnable() {
+        _data.UpdateData();
     }
 }

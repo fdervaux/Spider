@@ -217,10 +217,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6901e69719622346b8f20411ce3a1a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f: 6
-  z: 2
-  r: -1
   target: {fileID: 1600291784}
+  _data:
+    frequency: 12
+    damping: 0.5
+    impulse: 0
 --- !u!135 &185701663
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -292,7 +293,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 185701661}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.43, y: 2.42, z: 0}
+  m_LocalPosition: {x: 5.62, y: 2.42, z: -0.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1131,8 +1132,8 @@ MonoBehaviour:
   _floor: {fileID: 1953355270}
   _TilePrefab: {fileID: 1809122470373071302, guid: 052f741f846450b4ab0bd08b36e94f7d,
     type: 3}
-  instant: 1
-  seed: 42
+  instant: 0
+  seed: 13542
 --- !u!4 &954142002
 Transform:
   m_ObjectHideFlags: 0
@@ -1957,7 +1958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600291780}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.33, y: 2.32, z: 0}
+  m_LocalPosition: {x: 4, y: 2.32, z: -0.91}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
