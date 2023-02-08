@@ -219,9 +219,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1600291784}
   _data:
-    frequency: 12
-    damping: 0.5
-    impulse: 0
+    frequency: 6
+    damping: 0.7
+    impulse: 0.3
 --- !u!135 &185701663
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1958,7 +1958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600291780}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 2.32, z: -0.91}
+  m_LocalPosition: {x: 4.3, y: 2.32, z: 1.23}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
