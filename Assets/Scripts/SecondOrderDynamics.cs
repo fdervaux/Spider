@@ -36,8 +36,6 @@ public class SecondOrderDynamics
 
     public Vector3 Update(float t, Vector3 x, Vector3 xd)
     {
-        
-
         float k1_stable, k2_stable;
         if (_w * t < _z)
         {
