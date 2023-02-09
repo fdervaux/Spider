@@ -2,17 +2,39 @@
 using UnityEngine;
 using Unity.Mathematics;
 
+
 [System.Serializable]
-public class SecondOrderData<T>
+public class SecondOrder<T>
 {
-    [SerializeField] private float frequency;
-
-    [SerializeField] private float damping;
-
-    [SerializeField] private float impulse;
+    [SerializeField]
+    private SecondOrderData _data;
 
     private T _lastPosition;
     private T _targetPosition, _targetVelocity;
+
+    public T targetPosition { get => _targetPosition; set => _targetPosition = value; }
+    public T targetVelocity { get => _targetVelocity; set => _targetVelocity = value; }
+    public T lastPosition { get => _lastPosition; set => _lastPosition = value; }
+    public SecondOrderData Data { get => _data; set => _data = value; }
+
+
+    public void Init()
+    {
+        _data.UpdateData();
+    }
+}
+
+
+[System.Serializable]
+public class SecondOrderData
+{
+    [SerializeField, Range(0,100)] private float frequency;
+
+    [SerializeField, Range(0,5)] private float damping;
+
+    [SerializeField, Range(-10,10)] private float impulse;
+
+    
 
     private float _w, _z, _d, _k1, _k2, _k3;
     private float k1_stable, k2_stable;
@@ -30,10 +52,6 @@ public class SecondOrderData<T>
 
         UpdateData();
     }
-
-    public T targetPosition { get => _targetPosition; set => _targetPosition = value; }
-    public T targetVelocity { get => _targetVelocity; set => _targetVelocity = value; }
-    public T lastPosition { get => _lastPosition; set => _lastPosition = value; }
 
     public float K1 { get => _k1; set => _k1 = value; }
     public float K2_stable { get => k2_stable; set => k2_stable = value; }
@@ -74,20 +92,37 @@ public class SecondOrderData<T>
 
 public static class SecondOrderDynamics
 {
-    public static Vector3 SencondOrderUpdate(Vector3 targetPosition, SecondOrderData<Vector3> data, float deltaTime)
+    public static Vector3 SencondOrderUpdate(Vector3 targetPosition, SecondOrder<Vector3> secondOrder, float deltaTime)
     {
-        Vector3 xd = (targetPosition - data.lastPosition) / deltaTime;
-        data.lastPosition = targetPosition;
+        Vector3 xd = (targetPosition - secondOrder.lastPosition) / deltaTime;
+        secondOrder.lastPosition = targetPosition;
 
-        return SencondOrderUpdate(targetPosition, xd, data, deltaTime);
+        return SencondOrderUpdate(targetPosition, xd, secondOrder, deltaTime);
     }
-    public static Vector3 SencondOrderUpdate(Vector3 targetPosition, Vector3 targetVelocity, SecondOrderData<Vector3> data, float deltaTime)
+    public static Vector3 SencondOrderUpdate(Vector3 targetPosition, Vector3 targetVelocity, SecondOrder<Vector3> secondOrder, float deltaTime)
     {
-        data.setDeltaTime(deltaTime);
+        secondOrder.Data.setDeltaTime(deltaTime);
 
-        data.targetPosition = data.targetPosition + deltaTime * data.targetVelocity;
-        data.targetVelocity = data.targetVelocity + deltaTime * (targetPosition + data.K3 * targetVelocity - data.targetPosition - data.K1 * data.targetVelocity) / data.K2_stable;
+        secondOrder.targetPosition = secondOrder.targetPosition + deltaTime * secondOrder.targetVelocity;
+        secondOrder.targetVelocity = secondOrder.targetVelocity + deltaTime * (targetPosition + secondOrder.Data.K3 * targetVelocity - secondOrder.targetPosition - secondOrder.Data.K1 * secondOrder.targetVelocity) / secondOrder.Data.K2_stable;
 
-        return data.targetPosition;
+        return secondOrder.targetPosition;
+    }
+
+    public static float SencondOrderUpdate(float targetPosition, SecondOrder<float> secondOrder, float deltaTime)
+    {
+        float xd = (targetPosition - secondOrder.lastPosition) / deltaTime;
+        secondOrder.lastPosition = targetPosition;
+
+        return SencondOrderUpdate(targetPosition, xd, secondOrder, deltaTime);
+    }
+    public static float SencondOrderUpdate(float targetPosition, float targetVelocity, SecondOrder<float> secondOrder, float deltaTime)
+    {
+        secondOrder.Data.setDeltaTime(deltaTime);
+
+        secondOrder.targetPosition = secondOrder.targetPosition + deltaTime * secondOrder.targetVelocity;
+        secondOrder.targetVelocity = secondOrder.targetVelocity + deltaTime * (targetPosition + secondOrder.Data.K3 * targetVelocity - secondOrder.targetPosition - secondOrder.Data.K1 * secondOrder.targetVelocity) / secondOrder.Data.K2_stable;
+
+        return secondOrder.targetPosition;
     }
 }
