@@ -1,0 +1,16 @@
+{
+    "name": "Spider",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5541d791a3d04f445984eb5b23251ce9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

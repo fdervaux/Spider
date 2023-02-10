@@ -8,13 +8,13 @@ public class LegData
 
     private float _animationTimeRemaining = 0;
 
+    
+
     private Vector3 _startAnimationPosition;
     private Vector3 _targetAnimationPosition;
 
     private bool _hasContactFloorPoint = false;
     private Vector3 _floorContactPoint = Vector3.zero;
-
-    private float _currentAnimationDuration = 1;
 
     public bool IsAnimated { get { return _animationTimeRemaining > 0; } }
 
@@ -51,18 +51,19 @@ public class LegData
     {
         _startAnimationPosition = _targetLegPos.position;
         _animationTimeRemaining = animationDuration;
-        _currentAnimationDuration = animationDuration;
     }
 
 
-    public void Animate(AnimationCurve animationCurve, float animationDuration)
+    public void Animate(AnimationCurve animationCurve, float animationDuration, AnimationCurve heightAnimationCurve, float heightAnimation)
     {
         if (_animationTimeRemaining > 0)
         {
             float factor = animationCurve.Evaluate(1 - _animationTimeRemaining / animationDuration);
-            _targetLegPos.position = Vector3.Lerp(_startAnimationPosition, _targetAnimationPosition, factor);
+            float height = heightAnimationCurve.Evaluate(factor) * heightAnimation;
+            
+            _targetLegPos.position = Vector3.Lerp(_startAnimationPosition, _targetAnimationPosition, factor) + Vector3.up * height;
             _animationTimeRemaining -= Time.deltaTime;
-
+            
             if (_animationTimeRemaining <= 0)
             {
                 _targetLegPos.position = _targetAnimationPosition;

@@ -19,6 +19,10 @@ public class SpiderLegControl : MonoBehaviour
     [SerializeField] private float _minAnimationDuration = 0.5f;
     [SerializeField] private float _maxAnimationDuration = 0.5f;
     [SerializeField] private AnimationCurve _animationCurve;
+    [SerializeField] private float _maxHeightAnimation = 0.3f;
+    [SerializeField] private AnimationCurve _heightAnimationCurve;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -81,7 +85,7 @@ public class SpiderLegControl : MonoBehaviour
 
         foreach (LegData leg in _legs)
         {
-            leg.Animate(_animationCurve, animationDuration);
+            leg.Animate(_animationCurve, animationDuration, _heightAnimationCurve, _maxHeightAnimation);
         }
     }
 

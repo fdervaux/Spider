@@ -433,7 +433,7 @@ MonoBehaviour:
     m_Bits: 64
   _maxDistanceToFloorPoint: 0.5
   _velocityAnticipationFactor: 2
-  _minAnimationDuration: 0.2
+  _minAnimationDuration: 0.25
   _maxAnimationDuration: 0.07
   _animationCurve:
     serializedVersion: 2
@@ -455,6 +455,40 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _maxHeightAnimation: 0.6
+  _heightAnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.53118104
+      value: 1.0016282
+      inSlope: 0.07891113
+      outSlope: 0.07891113
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1927858
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -3.5508702
+      outSlope: -3.5508702
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06278933
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1183,7 +1217,7 @@ MonoBehaviour:
   _floor: {fileID: 1953355270}
   _TilePrefab: {fileID: 1809122470373071302, guid: 052f741f846450b4ab0bd08b36e94f7d,
     type: 3}
-  instant: 0
+  instant: 1
   seed: 13542
 --- !u!4 &954142002
 Transform:
