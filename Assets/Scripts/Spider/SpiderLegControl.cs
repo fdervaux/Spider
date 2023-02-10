@@ -10,6 +10,7 @@ public class SpiderLegControl : MonoBehaviour
     [SerializeField] private float _castRadius = 0.3f;
     [SerializeField] private LayerMask _castlayerMask;
 
+    [SerializeField] private float _startAnimationDistanceToFloorPoint = 0.2f;
     [SerializeField] private float _maxDistanceToFloorPoint = 0.2f;
 
     [SerializeField] private float _velocityAnticipationFactor = 1f;
@@ -22,6 +23,22 @@ public class SpiderLegControl : MonoBehaviour
     [SerializeField] private float _maxHeightAnimation = 0.3f;
     [SerializeField] private AnimationCurve _heightAnimationCurve;
 
+    [SerializeField] private Vector3 LastPosition = Vector3.zero;
+
+    public float getHeihtShift()
+    {
+        if(_legs.Count == 0)
+            return 0;
+
+        float heightShift = 0;
+
+        foreach (LegData leg in _legs)
+        {
+            heightShift += leg.heightShift;
+        }
+
+        return heightShift / _legs.Count;
+    }
 
 
     // Start is called before the first frame update
@@ -35,8 +52,12 @@ public class SpiderLegControl : MonoBehaviour
     {
         bool legMoving = false;
 
-        float velocityFactor = ExtensionMethods.Remap(_rigidbody.velocity.magnitude, 0, 4, 0, 1);
-        float animationDuration = Mathf.Lerp(_minAnimationDuration,_maxAnimationDuration,velocityFactor);
+        Vector3 velocity = (_rigidbody.position - LastPosition) / Time.fixedDeltaTime;
+        LastPosition = _rigidbody.position;
+
+
+        float velocityFactor = ExtensionMethods.Remap(velocity.magnitude, 0, 4, 0, 1);
+        float animationDuration = Mathf.Lerp(_minAnimationDuration, _maxAnimationDuration, velocityFactor);
 
         foreach (LegData leg in _legs)
         {
@@ -46,10 +67,10 @@ public class SpiderLegControl : MonoBehaviour
             leg.FindTarget(
             animationDuration * _velocityAnticipationFactor,
             _castDistance, _castRadius,
-            _maxDistanceToFloorPoint,
+            _startAnimationDistanceToFloorPoint,
             -transform.up,
             _castlayerMask,
-            _rigidbody.velocity
+            velocity
             );
         }
 
@@ -63,15 +84,22 @@ public class SpiderLegControl : MonoBehaviour
         foreach (LegData leg in _legs)
         {
             float distance = leg.targetDistance;
-            if (distance > _maxDistanceToFloorPoint && distance > MaxDistance)
+            if (distance > _startAnimationDistanceToFloorPoint && distance > MaxDistance)
             {
                 legToMove = leg;
                 MaxDistance = distance;
+                continue;
             }
 
+            if (distance > _maxDistanceToFloorPoint)
+            {
+                leg.StartAnimation(animationDuration);
+            }
         }
 
         legToMove?.StartAnimation(animationDuration);
+
+
     }
 
 
@@ -80,12 +108,16 @@ public class SpiderLegControl : MonoBehaviour
     void Update()
     {
 
+
+
         float velocityFactor = ExtensionMethods.Remap(_rigidbody.velocity.magnitude, 0, 4, 0, 1);
-        float animationDuration = Mathf.Lerp(_minAnimationDuration,_maxAnimationDuration,velocityFactor);
+        float animationDuration = Mathf.Lerp(_minAnimationDuration, _maxAnimationDuration, velocityFactor);
 
         foreach (LegData leg in _legs)
         {
             leg.Animate(_animationCurve, animationDuration, _heightAnimationCurve, _maxHeightAnimation);
+
+
         }
     }
 

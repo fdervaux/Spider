@@ -16,8 +16,10 @@ public class SecondOrder<T>
     public SecondOrderData Data { get => _data; set => _data = value; }
 
 
-    public void Init()
+    public void Init(T position)
     {
         _data.UpdateData();
+        _lastPosition = position;
+        _targetPosition = position;
     }
 }
