@@ -1407,13 +1407,13 @@ MonoBehaviour:
       damping: 0.39
       impulse: 2
   _rigidbody: {fileID: 321051932}
-  legController: {fileID: 321051933}
-  _heightFactor: 0.5
+  _heightFrequency: 20
+  _heightAmplitude: 0.05
   _heightDynamics:
     _data:
-      frequency: 3.1
-      damping: 0.39
-      impulse: 2
+      frequency: 4.3
+      damping: 0.24
+      impulse: 0
 --- !u!4 &1083222354 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4222832882509848, guid: 5c7f0950aa535ce4faef155ad244c136,

@@ -81,7 +81,6 @@ public class SecondOrderDataDrawer : NestablePropertyDrawer
 
         if (EditorGUI.EndChangeCheck())
         {
-            target.UpdateData();
             updateGraph(property);
         }
 

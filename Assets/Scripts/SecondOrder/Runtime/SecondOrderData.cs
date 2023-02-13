@@ -3,22 +3,19 @@ using UnityEngine;
 using Unity.Mathematics;
 
 [System.Serializable]
-public class SecondOrderData
+public class SecondOrderData : ISerializationCallbackReceiver
 {
-    [SerializeField, Range(0,100)] private float frequency;
+    [SerializeField, Range(0, 100)] private float frequency;
 
-    [SerializeField, Range(0,5)] private float damping;
+    [SerializeField, Range(0, 5)] private float damping;
 
-    [SerializeField, Range(-10,10)] private float impulse;
-
-    
+    [SerializeField, Range(-10, 10)] private float impulse;
 
     private float _w, _z, _d, _k1, _k2, _k3;
     private float k1_stable, k2_stable;
 
     public SecondOrderData()
     {
-        UpdateData();
     }
 
     public SecondOrderData(float frequency, float damping, float impulse)
@@ -26,8 +23,6 @@ public class SecondOrderData
         this.frequency = frequency;
         this.damping = damping;
         this.impulse = impulse;
-
-        UpdateData();
     }
 
     public float K1 { get => _k1; set => _k1 = value; }
@@ -63,5 +58,12 @@ public class SecondOrderData
             k1_stable = (1 - beta) * t2;
             k2_stable = deltaTime * t2;
         }
+    }
+
+    public void OnBeforeSerialize() { }
+
+    public void OnAfterDeserialize()
+    {
+        UpdateData();
     }
 }

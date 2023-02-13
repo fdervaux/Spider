@@ -10,9 +10,10 @@ public class followTargetDynamics : MonoBehaviour
     [SerializeField] private SecondOrder<Vector3> _eulerAngleSecondOrder;
     [SerializeField] Rigidbody _rigidbody;
 
-    [SerializeField] private SpiderLegControl legController;
+    //[SerializeField] private SpiderLegControl legController;
 
-    [SerializeField] private float _heightFactor = 0.5f;
+    [SerializeField] private float _heightFrequency = 1;
+    [SerializeField] private float _heightAmplitude = 0.5f;
     [SerializeField] private SecondOrder<float> _heightDynamics;
 
 
@@ -20,7 +21,9 @@ public class followTargetDynamics : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        /*_secondOrder.Init(transform.position);
+        _eulerAngleSecondOrder.Init(Vector3.zero);
+        _heightDynamics.Init(0);*/
     }
 
     void Update()
@@ -33,15 +36,10 @@ public class followTargetDynamics : MonoBehaviour
         actualRotation = SecondOrderDynamics.SencondOrderUpdate(targetAngle, _eulerAngleSecondOrder, Time.deltaTime);
         transform.rotation = Quaternion.Euler(actualRotation);
 
-        float height =  SecondOrderDynamics.SencondOrderUpdate(legController.getHeihtShift() * _heightFactor, _heightDynamics, Time.deltaTime);
+        float animationFactor = ExtensionMethods.Remap(_rigidbody.velocity.magnitude / 4, 0, 1, 0.5f, 1f);
+        float heightTarget = Mathf.Sin(Time.time * _heightFrequency * animationFactor) * Mathf.Pow(_rigidbody.velocity.magnitude / 4, 1/3f);
+        float height = SecondOrderDynamics.SencondOrderUpdate(heightTarget * _heightAmplitude, _heightDynamics, Time.deltaTime);
         transform.position = transform.position + Vector3.up * height;
 
-    }
-
-    private void OnEnable()
-    {
-        _secondOrder.Init(transform.position);
-        _eulerAngleSecondOrder.Init(Vector3.zero);
-        _heightDynamics.Init(0);
     }
 }
