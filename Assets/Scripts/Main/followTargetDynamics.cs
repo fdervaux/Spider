@@ -10,20 +10,12 @@ public class followTargetDynamics : MonoBehaviour
     [SerializeField] private SecondOrder<Vector3> _eulerAngleSecondOrder;
     [SerializeField] Rigidbody _rigidbody;
 
-    //[SerializeField] private SpiderLegControl legController;
-
     [SerializeField] private float _heightFrequency = 1;
     [SerializeField] private float _heightAmplitude = 0.5f;
     [SerializeField] private SecondOrder<float> _heightDynamics;
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        /*_secondOrder.Init(transform.position);
-        _eulerAngleSecondOrder.Init(Vector3.zero);
-        _heightDynamics.Init(0);*/
     }
 
     void Update()
