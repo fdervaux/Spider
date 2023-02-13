@@ -414,7 +414,7 @@ MonoBehaviour:
     m_Bits: 64
   _startAnimationDistanceToFloorPoint: 0.4
   _maxDistanceToFloorPoint: 0.75
-  _velocityAnticipationFactor: 2.5
+  _velocityAnticipationFactor: 1.5
   _minAnimationDuration: 0.25
   _maxAnimationDuration: 0.05
   _animationCurve:
@@ -1399,21 +1399,21 @@ MonoBehaviour:
   _secondOrder:
     _data:
       frequency: 2.3
-      damping: 0.39
-      impulse: 3.37
+      damping: 0.43
+      impulse: 1
   _eulerAngleSecondOrder:
     _data:
       frequency: 7.3
       damping: 0.39
-      impulse: 3.37
+      impulse: 2
   _rigidbody: {fileID: 321051932}
   legController: {fileID: 321051933}
   _heightFactor: 0.5
   _heightDynamics:
     _data:
       frequency: 3.1
-      damping: 1
-      impulse: 0
+      damping: 0.39
+      impulse: 2
 --- !u!4 &1083222354 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4222832882509848, guid: 5c7f0950aa535ce4faef155ad244c136,
