@@ -1254,7 +1254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99d567c3e717034eb02973c60789d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mazeSize: {x: 20, y: 20}
+  _mazeSize: {x: 5, y: 5}
   _tileSize: {x: 10, y: 10}
   _floor: {fileID: 1953355270}
   _TilePrefab: {fileID: 1809122470373071302, guid: 052f741f846450b4ab0bd08b36e94f7d,

@@ -32,6 +32,5 @@ public class followTargetDynamics : MonoBehaviour
         float heightTarget = Mathf.Sin(Time.time * _heightFrequency * animationFactor) * Mathf.Pow(_rigidbody.velocity.magnitude / 4, 1/3f);
         float height = SecondOrderDynamics.SencondOrderUpdate(heightTarget * _heightAmplitude, _heightDynamics, Time.deltaTime);
         transform.position = transform.position + Vector3.up * height;
-
     }
 }
