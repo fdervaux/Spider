@@ -28,10 +28,10 @@ public class followTargetDynamics : MonoBehaviour
         actualRotation = SecondOrderDynamics.SencondOrderUpdate(targetAngle, _eulerAngleSecondOrder, Time.deltaTime);
         transform.rotation = Quaternion.Euler(actualRotation);
 
-        float animationFactor = ExtensionMethods.Remap(_rigidbody.velocity.magnitude / 4, 0, 1, 0.5f, 1f);
+        /*float animationFactor = ExtensionMethods.Remap(_rigidbody.velocity.magnitude / 4, 0, 1, 0.5f, 1f);
         float heightTarget = Mathf.Sin(Time.time * _heightFrequency * animationFactor) * Mathf.Pow(_rigidbody.velocity.magnitude / 4, 1/3f);
         float height = SecondOrderDynamics.SencondOrderUpdate(heightTarget * _heightAmplitude, _heightDynamics, Time.deltaTime);
-        transform.position = transform.position + Vector3.up * height;
+        transform.position = transform.position + Vector3.up * height;*/
 
     }
 }

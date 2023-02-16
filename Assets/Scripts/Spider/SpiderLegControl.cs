@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class SpiderLegControl : MonoBehaviour
 {
@@ -24,6 +25,11 @@ public class SpiderLegControl : MonoBehaviour
     [SerializeField] private AnimationCurve _heightAnimationCurve;
 
     [SerializeField] private Vector3 LastPosition = Vector3.zero;
+
+
+    private Vector3 _worldVelocity = Vector3.zero;
+
+    public Vector3 WorldVelocity { get => _worldVelocity; set => _worldVelocity = value; }
 
     public float getHeihtShift()
     {
@@ -52,7 +58,7 @@ public class SpiderLegControl : MonoBehaviour
     {
         bool legMoving = false;
 
-        Vector3 velocity = (_rigidbody.position - LastPosition) / Time.fixedDeltaTime;
+        Vector3 velocity = (_rigidbody.position - LastPosition) / Time.fixedDeltaTime + _worldVelocity;
         LastPosition = _rigidbody.position;
 
 

@@ -2,7 +2,8 @@
     "name": "Spider",
     "rootNamespace": "",
     "references": [
-        "GUID:5541d791a3d04f445984eb5b23251ce9"
+        "GUID:5541d791a3d04f445984eb5b23251ce9",
+        "GUID:4307f53044263cf4b835bd812fc161a4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
