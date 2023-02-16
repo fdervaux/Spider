@@ -55,7 +55,7 @@ public class SecondOrderDataDrawer : NestablePropertyDrawer
     protected override void Initialize(SerializedProperty prop)
 	{
 		base.Initialize(prop);
-        target.UpdateData();
+        //target.UpdateData();
 		updateGraph(prop);
 	}
 
