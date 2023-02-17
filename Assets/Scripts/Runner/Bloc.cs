@@ -7,6 +7,8 @@ public class Bloc
 {
     [SerializeField] private GameObject _gameobject;
     [SerializeField] private float _size;
+     public GameObject Gameobject { get => _gameobject; set => _gameobject = value; }
+    public float Size { get => _size; set => _size = value; }
 
     public Bloc Create(Vector3 positionSpawn, Transform parent)
     {
@@ -20,7 +22,4 @@ public class Bloc
     {
         GameObject.Destroy(this._gameobject);
     }
-    
-    public GameObject Gameobject { get => _gameobject; set => _gameobject = value; }
-    public float Size { get => _size; set => _size = value; }
 }
