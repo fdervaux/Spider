@@ -11,9 +11,9 @@ public class RunnerLevelManager : MonoBehaviour
     [SerializeField] private float _spawnDistance;    
     [SerializeField] private int _seed = 42;
     [SerializeField] private bool _randomSeed;
-    // [SerializeField] private List<GameObject> _elementsToMove = new List<GameObject>();
-    // [SerializeField] private SpiderLegControl _spiderLegController;
-    // [SerializeField] private RunnerController _runnerController;
+    [SerializeField] private List<GameObject> _elementsToMove = new List<GameObject>();
+    [SerializeField] private SpiderLegControl _spiderLegController;
+    [SerializeField] private RunnerController _runnerController;
     [SerializeField] private Bloc _startBloc;
 
     private Queue<Bloc> _worldBlocs = new Queue<Bloc>();
@@ -72,17 +72,17 @@ public class RunnerLevelManager : MonoBehaviour
             bloc.Gameobject.GetComponent<Rigidbody>().velocity = -_speed * Vector3.forward;
         }
 
-        // foreach (GameObject obj in _elementsToMove)
-        // {
-        //     Vector3 position = obj.transform.position;
-        //     position.z -= _speed * Time.deltaTime;
-        //     obj.transform.position = position;
-        // }
+        foreach (GameObject obj in _elementsToMove)
+        {
+            Vector3 position = obj.transform.position;
+            position.z -= _speed * Time.deltaTime;
+            obj.transform.position = position;
+        }
 
-        // if (!_runnerController.Death)
-        //     _spiderLegController.WorldVelocity = Vector3.forward * _speed;
-        // else
-        //     _spiderLegController.WorldVelocity = Vector3.zero;
+        if (!_runnerController.Death)
+            _spiderLegController.WorldVelocity = Vector3.forward * _speed;
+        else
+            _spiderLegController.WorldVelocity = Vector3.zero;
     }
     private void InitialiseRandom()
     {

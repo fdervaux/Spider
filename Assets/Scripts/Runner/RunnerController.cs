@@ -37,7 +37,6 @@ public class RunnerController : MonoBehaviour
             if (!death)
             {
                 _currentPosition--;
-                _rigidbody.MovePosition(_startPosition + Vector3.right * _shifts[_currentPosition]);
             }
         }
     }
@@ -49,7 +48,6 @@ public class RunnerController : MonoBehaviour
             if (!death)
             {
                 _currentPosition++;
-                _rigidbody.MovePosition(_startPosition + Vector3.right * _shifts[_currentPosition]);
             }
         }
     }
@@ -69,9 +67,12 @@ public class RunnerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        MovePlayer();
+    }
+
+    private void MovePlayer()
+    {
         if (!death)
-            // _rigidbody.MovePosition(SecondOrderDynamics.SencondOrderUpdate(_startPosition + Vector3.right * _shifts[_currentPosition], _movementSecondOrder, Time.fixedDeltaTime));
-            _rigidbody.MovePosition(_startPosition + Vector3.right * _shifts[_currentPosition]);
-        //Debug.Log(_currentPosition);
+            _rigidbody.MovePosition(SecondOrderDynamics.SencondOrderUpdate(_startPosition + Vector3.right * _shifts[_currentPosition], _movementSecondOrder, Time.fixedDeltaTime));
     }
 }
