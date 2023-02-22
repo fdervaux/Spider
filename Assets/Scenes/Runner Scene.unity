@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18031943, g: 0.22575907, b: 0.30698532, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -627,6 +627,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1957933215572169590, guid: 1f005ebcabae55945b0805f311822ca9,
+        type: 3}
+      propertyPath: _secondOrder._data.damping
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957933215572169590, guid: 1f005ebcabae55945b0805f311822ca9,
+        type: 3}
+      propertyPath: _secondOrder._data.frequency
+      value: 4.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957933215572169590, guid: 1f005ebcabae55945b0805f311822ca9,
+        type: 3}
+      propertyPath: _heightDynamics._data.damping
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957933215572169590, guid: 1f005ebcabae55945b0805f311822ca9,
+        type: 3}
+      propertyPath: _heightDynamics._data.impulse
+      value: 0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957933215572169590, guid: 1f005ebcabae55945b0805f311822ca9,
+        type: 3}
+      propertyPath: _eulerAngleSecondOrder._data.impulse
+      value: 0.72
+      objectReference: {fileID: 0}
     - target: {fileID: 1957933215832588764, guid: 1f005ebcabae55945b0805f311822ca9,
         type: 3}
       propertyPath: m_RootOrder

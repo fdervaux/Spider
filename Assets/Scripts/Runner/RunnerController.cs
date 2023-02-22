@@ -72,6 +72,13 @@ public class RunnerController : MonoBehaviour
     private void MovePlayer()
     {
         if (!death)
-            _rigidbody.MovePosition(SecondOrderDynamics.SencondOrderUpdate(_startPosition + Vector3.right * _shifts[_currentPosition], _movementSecondOrder, Time.fixedDeltaTime));
+        {
+            _rigidbody.velocity = (SecondOrderDynamics.SencondOrderUpdate(_startPosition + Vector3.right * _shifts[_currentPosition], _movementSecondOrder, Time.fixedDeltaTime) - _rigidbody.position ) / Time.fixedDeltaTime;
+        }
+        else
+        {
+            _rigidbody.velocity = Vector3.zero;
+        }
+            //_rigidbody.MovePosition(SecondOrderDynamics.SencondOrderUpdate(_startPosition + Vector3.right * _shifts[_currentPosition], _movementSecondOrder, Time.fixedDeltaTime));
     }
 }

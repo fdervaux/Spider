@@ -24,6 +24,8 @@ public class followTargetDynamics : MonoBehaviour
 
         Vector3 actualRotation = transform.rotation.eulerAngles;
 
+        Debug.Log(_rigidbody.velocity);
+
         Vector3 targetAngle = new Vector3(_rigidbody.velocity.z * 20 / 4, 0, -_rigidbody.velocity.x * 20 / 4);
         actualRotation = SecondOrderDynamics.SencondOrderUpdate(targetAngle, _eulerAngleSecondOrder, Time.deltaTime);
         transform.rotation = Quaternion.Euler(actualRotation);
